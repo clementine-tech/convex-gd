@@ -15,4 +15,3 @@ You can find more information about using Rust in Godot in the [gdext book](http
 ## Known Issues
 
 - Web export is still not working.
-- this relies 
