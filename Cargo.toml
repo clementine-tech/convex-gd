@@ -1,0 +1,19 @@
+[package]
+name = "convex-gd"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+crate-type = ["cdylib"]  # Compile this crate to a dynamic C library.
+
+
+[dependencies]
+convex = { path="/Users/ramoniglesias/development/convex-rs", version = "=0.6.0", features=["base-client"], default-features = false}
+convex_sync_types = { path="/Users/ramoniglesias/development/convex-rs/sync_types", version = "=0.6.0"}
+dotenvy = "0.15.7"
+tokio = { features = [ "sync" ], version = "1" }
+godot = { git = "https://github.com/godot-rust/gdext", branch = "master", features = ["experimental-wasm", "lazy-function-tables"] }
+anyhow = { version = "1.0"}
+structopt = "0.3.26"
+tracing = "0.1.40"
+serde_json = "1.0.116"
