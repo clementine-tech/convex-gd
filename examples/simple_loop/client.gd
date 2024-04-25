@@ -1,6 +1,6 @@
 extends Node
 
-class_name ConvexClient
+class_name ConvexGd
 
 # The URL we will connect to.
 var websocket_url: String

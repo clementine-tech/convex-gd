@@ -8,8 +8,8 @@ crate-type = ["cdylib"]  # Compile this crate to a dynamic C library.
 
 
 [dependencies]
-convex = { path="/Users/ramoniglesias/development/convex-rs", version = "=0.6.0", features=["base-client"], default-features = false}
-convex_sync_types = { path="/Users/ramoniglesias/development/convex-rs/sync_types", version = "=0.6.0"}
+convex = { version = "0.6.0"}
+convex_sync_types = { version = "0.6.0"}
 dotenvy = "0.15.7"
 tokio = { features = [ "sync" ], version = "1" }
 godot = { git = "https://github.com/godot-rust/gdext", branch = "master", features = ["experimental-wasm", "lazy-function-tables"] }

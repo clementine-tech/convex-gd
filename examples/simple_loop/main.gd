@@ -1,7 +1,7 @@
 extends Node2D
 
-var client: ConvexClient
-var server_url: String = "wss://polished-poodle-907.convex.cloud/api/sync"
+var client: ConvexGd
+var server_url: String
 
 var subscription: Subscription
 
@@ -13,8 +13,11 @@ var pending_results = []
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	# load env vars
+	_load_env_vars()
 	# instantiate web socket node
-	client = ConvexClient.new(server_url)
+	server_url = OS.get_environment("CONVEX_URL")
+	client = ConvexGd.new(server_url)
 	add_child(client)
 	
 	# and subscribe to a service
@@ -53,3 +56,18 @@ func _process(delta):
 	pending_results = updated_pending_results
 		
 
+func _load_env_vars():
+	# hacky way to load local env variable files
+	var file = FileAccess.open("res://.env.local", FileAccess.READ)
+	if FileAccess.get_open_error() == OK:
+		while file.get_position() < file.get_length():
+			var line = file.get_line()
+			if line != "" and not line.begins_with("#"):  # Ignore empty lines and comments
+				var parts = line.split("=")
+				if parts.size() >= 2:
+					var key = parts[0]
+					var value = "=".join(parts.slice(1, parts.size())) # In case value contains '='
+					OS.set_environment(key, value)
+		file.close()
+	else:
+		print("[ERROR] [logger] Failed to open .env file")
