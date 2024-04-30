@@ -7,22 +7,26 @@ var websocket_url: String
 var socket: WebSocketPeer
 var convex_client: ConvexClient
 
-signal message_received(txt)
-signal update_mental_goal(data)
-signal update_pddl_goal(data)
-signal debug_mood_summary_received(txt)
-signal update_npc_thought(data)
-
 func _init(
-		_url: String,
+		_url: String = "",
 ):
-	websocket_url = _url
-	socket = WebSocketPeer.new()
-	var res = socket.connect_to_url(websocket_url)
-	if res != OK:
-		log_message("Unable to connect.")
+	if _url:
+		websocket_url = _url
+	else:
+		websocket_url = OS.get_environment("CONVEX_URL")
+	if websocket_url == "":
+		log_message("No CONVEX_URL environment variable set.")
 		set_process(false)
-	convex_client = ConvexGd.create()
+		return
+	else:
+		log_message("Connecting to %s" % websocket_url)
+		# create a new websocket peer
+		socket = WebSocketPeer.new()
+		var res = socket.connect_to_url(websocket_url)
+		if res != OK:
+			log_message("Unable to connect.")
+			set_process(false)
+		convex_client = ConvexClient.create()
 	
 
 func _ready():

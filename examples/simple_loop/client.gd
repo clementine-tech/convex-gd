@@ -7,12 +7,6 @@ var websocket_url: String
 var socket: WebSocketPeer
 var convex_client: ConvexClient
 
-signal message_received(txt)
-signal update_mental_goal(data)
-signal update_pddl_goal(data)
-signal debug_mood_summary_received(txt)
-signal update_npc_thought(data)
-
 func _init(
 		_url: String,
 ):
