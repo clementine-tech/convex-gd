@@ -12,7 +12,12 @@ func _init(
 ):
 	if _url:
 		websocket_url = _url
-	else:
+	
+	
+
+func _ready():
+	
+	if not websocket_url:
 		websocket_url = OS.get_environment("CONVEX_URL")
 	if websocket_url == "":
 		log_message("No CONVEX_URL environment variable set.")
@@ -27,10 +32,6 @@ func _init(
 			log_message("Unable to connect.")
 			set_process(false)
 		convex_client = ConvexClient.create()
-	
-
-func _ready():
-	pass
 
 func _process(_delta):
 	# every frame we check if there are any packets to process
@@ -62,7 +63,10 @@ func action(udf_path: String, args: Dictionary):
 	return res
 
 func get_results_for_subscription(subscription: Subscription):
-	return convex_client.get_results_for_subscription(subscription)
+	var results = convex_client.get_results_for_subscription(subscription)
+	if results and 'data' in results:
+		return results['data']
+	return null
 
 func log_message(message):
 	var time = "[color=#aaaaaa] %s [/color]" % Time.get_time_string_from_system()
